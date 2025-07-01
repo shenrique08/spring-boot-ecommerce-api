@@ -1,37 +1,44 @@
 package org.springbootapi.api.entities;
 
-
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.extern.log4j.Log4j2;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-@Log4j2
-@Builder
 @Getter
 @Setter
 @ToString
 @Entity
-@AllArgsConstructor
 @Table(name = "tb_user")
 public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String name;
-    String email;
-    String phone;
-    String password;
+    private Long id;
+    private String name;
+    private String email;
+    private String phone;
+    private String password;
+
 
     public User() {
+    }
 
+    @Builder
+    public User(String name, String email, String phone, String password) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
     }
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return Objects.equals(id, user.id);
@@ -41,5 +48,4 @@ public class User implements Serializable {
     public int hashCode() {
         return Objects.hashCode(id);
     }
-
 }
