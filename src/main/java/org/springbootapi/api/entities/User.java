@@ -1,6 +1,7 @@
 package org.springbootapi.api.entities;
 
 
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
 
@@ -12,12 +13,22 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
+@Entity
+@AllArgsConstructor
+@Table(name = "tb_user")
 public class User implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String name;
     String email;
     String phone;
     String password;
+
+    public User() {
+
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -30,4 +41,5 @@ public class User implements Serializable {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+
 }
