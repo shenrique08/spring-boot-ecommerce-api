@@ -15,7 +15,6 @@ import java.util.List;
 @RequestMapping(value = "/users")
 public class UserResource {
 
-
     private final UserService service;
 
     @Autowired
