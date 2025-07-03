@@ -1,8 +1,10 @@
 package org.springbootapi.api.config;
 
+import org.springbootapi.api.entities.Category;
 import org.springbootapi.api.entities.Order;
 import org.springbootapi.api.entities.User;
 import org.springbootapi.api.entities.enums.OrderStatus;
+import org.springbootapi.api.repositories.CategoryRepository;
 import org.springbootapi.api.repositories.OrderRepository;
 import org.springbootapi.api.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -18,10 +20,12 @@ public class TestConfig implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
+    private final CategoryRepository categoryRepository;
 
-    public TestConfig(UserRepository userRepository, OrderRepository orderRepository) {
+    public TestConfig(UserRepository userRepository, OrderRepository orderRepository, CategoryRepository categoryRepository) {
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -67,5 +71,17 @@ public class TestConfig implements CommandLineRunner {
                 .build();
 
         orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+
+        Category category = Category.builder()
+                .name("Books")
+                .build();
+        Category category1 = Category.builder()
+                .name("Computers")
+                .build();
+        Category category2 = Category.builder()
+                .name("Electronics")
+                .build();
+
+        categoryRepository.saveAll(Arrays.asList(category1, category, category2));
     }
 }
