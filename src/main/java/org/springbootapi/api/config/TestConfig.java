@@ -2,6 +2,7 @@ package org.springbootapi.api.config;
 
 import org.springbootapi.api.entities.Order;
 import org.springbootapi.api.entities.User;
+import org.springbootapi.api.entities.enums.OrderStatus;
 import org.springbootapi.api.repositories.OrderRepository;
 import org.springbootapi.api.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -52,13 +53,16 @@ public class TestConfig implements CommandLineRunner {
         Order o1 = Order.builder()
                 .moment(Instant.parse("2025-06-20T19:53:07Z"))
                 .client(u1)
+                .orderStatus(OrderStatus.PAID)
                 .build();
         Order o2 = Order.builder()
                 .moment(Instant.parse("2025-07-21T03:42:10Z"))
                 .client(u3)
+                .orderStatus(OrderStatus.CANCELED)
                 .build();
         Order o3 = Order.builder()
                 .moment(Instant.parse("2025-07-22T15:21:22Z"))
+                .orderStatus(OrderStatus.SHIPPED)
                 .client(u1)
                 .build();
 
