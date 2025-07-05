@@ -3,6 +3,7 @@ package org.springbootapi.api.entities;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -11,30 +12,37 @@ import java.util.Set;
 
 @Getter
 @Entity
-@Table(name = "tb_category")
-public class Category implements Serializable {
+@Table(name = "tb_products")
+@ToString
+public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String description;
+    private Double price;
+    private String imgUrl;
 
-    private final Set<Product> products = new HashSet<>();
+    private final Set<Category> categories = new HashSet<>();
 
-    public Category() {
+    public Product() {
     }
 
     @Builder
-    public Category(Long id, String name) {
+    public Product(Long id, String name, String description, Double price, String imgUrl) {
         this.id = id;
         this.name = name;
+        this.description = description;
+        this.price = price;
+        this.imgUrl = imgUrl;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Category category = (Category) o;
-        return Objects.equals(id, category.id);
+        Product product = (Product) o;
+        return Objects.equals(id, product.id);
     }
 
     @Override

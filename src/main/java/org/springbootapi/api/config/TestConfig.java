@@ -2,10 +2,12 @@ package org.springbootapi.api.config;
 
 import org.springbootapi.api.entities.Category;
 import org.springbootapi.api.entities.Order;
+import org.springbootapi.api.entities.Product;
 import org.springbootapi.api.entities.User;
 import org.springbootapi.api.entities.enums.OrderStatus;
 import org.springbootapi.api.repositories.CategoryRepository;
 import org.springbootapi.api.repositories.OrderRepository;
+import org.springbootapi.api.repositories.ProductRepository;
 import org.springbootapi.api.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -21,11 +23,13 @@ public class TestConfig implements CommandLineRunner {
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
     private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
 
-    public TestConfig(UserRepository userRepository, OrderRepository orderRepository, CategoryRepository categoryRepository) {
+    public TestConfig(ProductRepository productRepository, UserRepository userRepository, OrderRepository orderRepository, CategoryRepository categoryRepository) {
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
         this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -83,5 +87,42 @@ public class TestConfig implements CommandLineRunner {
                 .build();
 
         categoryRepository.saveAll(Arrays.asList(category1, category, category2));
+
+        Product p1 = Product.builder()
+                .name("The Lord of the Rings")
+                .description("Lorem ipsum dolor sit amet, consectetur.")
+                .price(90.5)
+                .imgUrl("")
+                .build();
+
+        Product p2 = Product.builder()
+                .name("Smart TV LG 32'")
+                .description("Nulla eu imperdiet purus. Maecenas ante.")
+                .price(2190.0)
+                .imgUrl("")
+                .build();
+
+        Product p3 = Product.builder()
+                .name("Macbook Pro")
+                .description("Nam eleifend maximus tortor, at mollis.")
+                .price(6550.0)
+                .imgUrl("")
+                .build();
+
+        Product p4 = Product.builder()
+                .name("PS5")
+                .description("Donec aliquet odio ac rhoncus cursus.")
+                .price(3000.0)
+                .imgUrl("")
+                .build();
+
+        Product p5 = Product.builder()
+                .name("Python for Dummies")
+                .description("Cras fringilla convallis sem vel faucibus.")
+                .price(100.99)
+                .imgUrl("")
+                .build();
+
+        productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
     }
 }
