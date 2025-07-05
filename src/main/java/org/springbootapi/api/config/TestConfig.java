@@ -103,9 +103,9 @@ public class TestConfig implements CommandLineRunner {
                 .build();
 
         Product p3 = Product.builder()
-                .name("Macbook Pro")
+                .name("Macbook Pro 14")
                 .description("Nam eleifend maximus tortor, at mollis.")
-                .price(6550.0)
+                .price(13_000.0)
                 .imgUrl("")
                 .build();
 
@@ -122,6 +122,12 @@ public class TestConfig implements CommandLineRunner {
                 .price(100.99)
                 .imgUrl("")
                 .build();
+
+        p1.getCategories().add(category);
+        p2.getCategories().add(category2);
+        p3.getCategories().add(category1);
+        p4.getCategories().add(category2);
+        p5.getCategories().add(category);
 
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
     }
