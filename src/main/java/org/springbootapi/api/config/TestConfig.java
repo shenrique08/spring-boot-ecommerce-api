@@ -1,14 +1,8 @@
 package org.springbootapi.api.config;
 
-import org.springbootapi.api.entities.Category;
-import org.springbootapi.api.entities.Order;
-import org.springbootapi.api.entities.Product;
-import org.springbootapi.api.entities.User;
+import org.springbootapi.api.entities.*;
 import org.springbootapi.api.entities.enums.OrderStatus;
-import org.springbootapi.api.repositories.CategoryRepository;
-import org.springbootapi.api.repositories.OrderRepository;
-import org.springbootapi.api.repositories.ProductRepository;
-import org.springbootapi.api.repositories.UserRepository;
+import org.springbootapi.api.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -24,12 +18,14 @@ public class TestConfig implements CommandLineRunner {
     private final OrderRepository orderRepository;
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
+    private final OrderItemRepository orderItemRepository;
 
-    public TestConfig(ProductRepository productRepository, UserRepository userRepository, OrderRepository orderRepository, CategoryRepository categoryRepository) {
+    public TestConfig(OrderItemRepository orderItemRepository, ProductRepository productRepository, UserRepository userRepository, OrderRepository orderRepository, CategoryRepository categoryRepository) {
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
+        this.orderItemRepository = orderItemRepository;
     }
 
     @Override
@@ -130,5 +126,36 @@ public class TestConfig implements CommandLineRunner {
         p5.getCategories().add(category);
 
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
+
+        OrderItem orderItem1 = OrderItem.builder()
+                .order(o1)
+                .product(p1)
+                .quantity(2)
+                .price(p1.getPrice())
+                .build();
+
+        OrderItem orderItem2 = OrderItem.builder()
+                .order(o1)
+                .product(p3)
+                .quantity(1)
+                .price(p3.getPrice())
+                .build();
+
+        OrderItem orderItem3 = OrderItem.builder()
+                .order(o2)
+                .product(p3)
+                .quantity(2)
+                .price(p3.getPrice())
+                .build();
+
+        OrderItem orderItem4 = OrderItem.builder()
+                .order(o3)
+                .product(p5)
+                .quantity(2)
+                .price(p5.getPrice())
+                .build();
+
+        orderItemRepository.saveAll(Arrays.asList(orderItem4, orderItem3, orderItem2, orderItem1));
+
     }
 }
