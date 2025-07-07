@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.springbootapi.api.entities.enums.OrderStatus;
 
@@ -41,6 +42,10 @@ public class Order implements Serializable {
     @OneToMany(mappedBy = "id.order")
     private final Set<OrderItem> items = new HashSet<>();
 
+    @Setter
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
+
     @Builder
     public Order(Long id, Instant moment, User client, OrderStatus orderStatus) {
         this.id = id;
@@ -71,4 +76,5 @@ public class Order implements Serializable {
         if (orderStatus != null)
             this.orderStatus = orderStatus.getCode();
     }
+
 }
