@@ -56,6 +56,21 @@ public class Order implements Serializable {
 
     public Order() {}
 
+    public OrderStatus getOrderStatus() {
+        return OrderStatus.valueOf(orderStatus);
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        if (orderStatus != null)
+            this.orderStatus = orderStatus.getCode();
+    }
+
+    public Double getTotal() {
+        return items.stream()
+                .map(OrderItem::getSubTotal)
+                .reduce(0.0, Double::sum);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -66,15 +81,6 @@ public class Order implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
-    }
-
-    public OrderStatus getOrderStatus() {
-        return OrderStatus.valueOf(orderStatus);
-    }
-
-    public void setOrderStatus(OrderStatus orderStatus) {
-        if (orderStatus != null)
-            this.orderStatus = orderStatus.getCode();
     }
 
 }
