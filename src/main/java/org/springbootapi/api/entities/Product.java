@@ -1,5 +1,8 @@
 package org.springbootapi.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,6 +17,8 @@ import java.util.Set;
 @Entity
 @Table(name = "tb_products")
 @ToString
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Product implements Serializable {
 
     @Id
@@ -30,6 +35,9 @@ public class Product implements Serializable {
     inverseJoinColumns = @JoinColumn(name = "category_id"))
     private final Set<Category> categories = new HashSet<>();
 
+    @OneToMany(mappedBy = "id.product")
+    private final Set<OrderItem> items = new HashSet<>();
+
     public Product() {
     }
 
@@ -40,6 +48,16 @@ public class Product implements Serializable {
         this.description = description;
         this.price = price;
         this.imgUrl = imgUrl;
+    }
+
+    @JsonIgnore
+    public Set<Order> getOrders() {
+        Set<Order> set = new HashSet<>();
+        for (OrderItem item : items) {
+            set.add(item.getOrder());
+        }
+
+        return set;
     }
 
     @Override
@@ -53,4 +71,5 @@ public class Product implements Serializable {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+
 }

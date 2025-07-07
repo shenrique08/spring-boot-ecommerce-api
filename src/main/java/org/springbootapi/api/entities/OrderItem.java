@@ -12,6 +12,7 @@ import org.springbootapi.api.entities.pk.OrderItemPK;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Entity
@@ -43,6 +44,7 @@ public class OrderItem implements Serializable {
         id.setProduct(product);
     }
 
+    @JsonIgnore
     public Order getOrder() {
         return id.getOrder();
     }
@@ -62,4 +64,8 @@ public class OrderItem implements Serializable {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+
+
+
+
 }
