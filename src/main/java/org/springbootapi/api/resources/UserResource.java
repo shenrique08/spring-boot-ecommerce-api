@@ -4,6 +4,7 @@ import org.springbootapi.api.entities.User;
 import org.springbootapi.api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -22,6 +23,7 @@ public class UserResource {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<User>> findAll() {
         List<User> userList = service.findAll();
 
@@ -29,6 +31,7 @@ public class UserResource {
     }
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<User> findById(@PathVariable Long id) {
         return service.findById(id)
                 .map(user -> ResponseEntity.ok().body(user))
