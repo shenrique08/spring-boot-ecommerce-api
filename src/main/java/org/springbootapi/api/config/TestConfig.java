@@ -11,7 +11,7 @@ import java.time.Instant;
 import java.util.Arrays;
 
 @Configuration
-@Profile("test")
+@Profile({"test", "dev"}) // This is the only line you need to change
 public class TestConfig implements CommandLineRunner {
 
     private final UserRepository userRepository;
@@ -29,7 +29,7 @@ public class TestConfig implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
 
         User u1 = User.builder()
                 .name("Maria Brown")
