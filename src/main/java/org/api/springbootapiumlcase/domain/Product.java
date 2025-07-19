@@ -15,30 +15,36 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-public class Category implements Serializable {
+public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private Double price;
 
+    @Getter
     @Setter(AccessLevel.NONE)
-    @ManyToMany(mappedBy = "categoryList")
-    private List<Product> productList = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "product_category",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private List<Category> categoryList = new ArrayList<>();
 
-    public Category() {}
+    public Product() {}
 
     @Builder
-    public Category(Long id, String name) {
+    public Product(Long id, String name, Double price) {
         this.id = id;
         this.name = name;
+        this.price = price;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Category category = (Category) o;
-        return Objects.equals(id, category.id);
+        Product product = (Product) o;
+        return Objects.equals(id, product.id);
     }
 
     @Override
