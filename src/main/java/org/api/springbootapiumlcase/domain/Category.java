@@ -1,6 +1,7 @@
 package org.api.springbootapiumlcase.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,6 +23,7 @@ public class Category implements Serializable {
     private Long id;
     private String name;
 
+    @JsonManagedReference()
     @Setter(AccessLevel.NONE)
     @ManyToMany(mappedBy = "categoryList")
     private List<Product> productList = new ArrayList<>();

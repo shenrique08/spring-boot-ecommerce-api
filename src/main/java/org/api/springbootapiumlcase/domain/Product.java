@@ -1,6 +1,7 @@
 package org.api.springbootapiumlcase.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -23,6 +24,7 @@ public class Product implements Serializable {
     private String name;
     private Double price;
 
+    @JsonBackReference
     @Getter
     @Setter(AccessLevel.NONE)
     @ManyToMany

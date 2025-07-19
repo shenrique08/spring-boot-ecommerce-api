@@ -32,22 +32,18 @@ public class TestConfig implements CommandLineRunner {
         Category category2 = Category.builder().name("Books").build();
         Category category3 = Category.builder().name("Computers").build();
 
+        categoryRepository.saveAll(Arrays.asList(category1, category2, category3));
+
         Product product1 = Product.builder().name("Laptop Lenovo").price(3000.0).build();
         Product product2 = Product.builder().name("Printer").price(1200.0).build();
         Product product3 = Product.builder().name("The Hobbit").price(45.0).build();
         Product product4 = Product.builder().name("9600 XT 16GB").price(3000.0).build();
 
-        category1.getProductList().addAll(Arrays.asList(product4, product2));
-        category2.getProductList().add(product3);
-        category3.getProductList().add(product1);
-
-        product1.getCategoryList().addAll(Arrays.asList(category1, category3));
+        product1.getCategoryList().add(category3);
         product2.getCategoryList().add(category1);
         product3.getCategoryList().add(category2);
         product4.getCategoryList().add(category1);
 
-        categoryRepository.saveAll(Arrays.asList(category1, category2, category3));
         productRepository.saveAll(Arrays.asList(product1, product2, product3, product4));
-
     }
 }
