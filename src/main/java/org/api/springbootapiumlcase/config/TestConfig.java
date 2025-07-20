@@ -1,13 +1,8 @@
 package org.api.springbootapiumlcase.config;
 
-import org.api.springbootapiumlcase.domain.Category;
-import org.api.springbootapiumlcase.domain.City;
-import org.api.springbootapiumlcase.domain.Product;
-import org.api.springbootapiumlcase.domain.State;
-import org.api.springbootapiumlcase.repositories.CategoryRepository;
-import org.api.springbootapiumlcase.repositories.CityRepository;
-import org.api.springbootapiumlcase.repositories.ProductRepository;
-import org.api.springbootapiumlcase.repositories.StateRepository;
+import org.api.springbootapiumlcase.domain.*;
+import org.api.springbootapiumlcase.domain.enums.CustomerType;
+import org.api.springbootapiumlcase.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -24,14 +19,18 @@ public class TestConfig implements CommandLineRunner {
     private final ProductRepository productRepository;
     private final StateRepository stateRepository;
     private final CityRepository cityRepository;
+    private final CustomerRepository customerRepository;
+    private final AddressRepository addressRepository;
 
 
     @Autowired
-    public TestConfig(CategoryRepository categoryRepository, ProductRepository productRepository, StateRepository stateRepository, CityRepository cityRepository) {
+    public TestConfig(CategoryRepository categoryRepository, ProductRepository productRepository, StateRepository stateRepository, CityRepository cityRepository, CustomerRepository customerRepository, AddressRepository addressRepository) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.stateRepository = stateRepository;
         this.cityRepository = cityRepository;
+        this.customerRepository = customerRepository;
+        this.addressRepository = addressRepository;
     }
 
     @Override
@@ -83,5 +82,57 @@ public class TestConfig implements CommandLineRunner {
         stateRepository.saveAll(Arrays.asList(state1, state2));
         cityRepository.saveAll(Arrays.asList(city3, city2, city1));
 
+        Customer customer1 = Customer.builder()
+                .name("John Doe")
+                .email("john.doe@example.com")
+                .identificationNumber("12345678900")
+                .customerType(CustomerType.INDIVIDUAL)
+                .build();
+
+        customer1.getPhones().addAll(Arrays.asList("11987654321", "11123456789"));
+
+        Customer customer2 = Customer.builder()
+                .name("ACME Corp")
+                .email("contact@acme.com")
+                .identificationNumber("12345678000199")
+                .customerType(CustomerType.LEGAL_ENTITY)
+                .build();
+
+        customer2.getPhones().add("11998877665");
+
+        customerRepository.saveAll(Arrays.asList(customer1, customer2));
+
+        Address address1 = Address.builder()
+                .street("Main Street")
+                .number("123")
+                .complement("Apt 4B")
+                .neighborhood("Downtown")
+                .zipCode("12345-678")
+                .customer(customer1)
+                .state(state1)
+                .city(city1)
+                .build();
+
+        Address address2 = Address.builder()
+                .street("Secondary Street")
+                .number("456")
+                .neighborhood("Uptown")
+                .zipCode("87654-321")
+                .customer(customer1)
+                .state(state2)
+                .city(city2)
+                .build();
+
+        Address address3 = Address.builder()
+                .street("Business Avenue")
+                .number("789")
+                .neighborhood("Business District")
+                .zipCode("11223-344")
+                .customer(customer2)
+                .state(state2)
+                .city(city2)
+                .build();
+
+        addressRepository.saveAll(Arrays.asList(address1, address2, address3));
     }
 }
