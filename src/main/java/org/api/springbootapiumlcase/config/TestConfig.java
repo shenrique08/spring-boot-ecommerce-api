@@ -1,9 +1,13 @@
 package org.api.springbootapiumlcase.config;
 
 import org.api.springbootapiumlcase.domain.Category;
+import org.api.springbootapiumlcase.domain.City;
 import org.api.springbootapiumlcase.domain.Product;
+import org.api.springbootapiumlcase.domain.State;
 import org.api.springbootapiumlcase.repositories.CategoryRepository;
+import org.api.springbootapiumlcase.repositories.CityRepository;
 import org.api.springbootapiumlcase.repositories.ProductRepository;
+import org.api.springbootapiumlcase.repositories.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -18,11 +22,16 @@ public class TestConfig implements CommandLineRunner {
 
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
+    private final StateRepository stateRepository;
+    private final CityRepository cityRepository;
+
 
     @Autowired
-    public TestConfig(CategoryRepository categoryRepository, ProductRepository productRepository) {
+    public TestConfig(CategoryRepository categoryRepository, ProductRepository productRepository, StateRepository stateRepository, CityRepository cityRepository) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
+        this.stateRepository = stateRepository;
+        this.cityRepository = cityRepository;
     }
 
     @Override
@@ -45,5 +54,34 @@ public class TestConfig implements CommandLineRunner {
         product4.getCategoryList().add(category1);
 
         productRepository.saveAll(Arrays.asList(product1, product2, product3, product4));
+
+        State state1 = State.builder()
+                .name("Minas Gerais")
+                .build();
+        State state2 = State.builder()
+                .name("São Paulo")
+                .build();
+
+        City city1 = City.builder()
+                .name("Uberlândia")
+                .state(state1)
+                .build();
+
+        City city2 = City.builder()
+                .name("São Paulo")
+                .state(state2)
+                .build();
+
+        City city3 = City.builder()
+                .name("Belo Horizonte")
+                .state(state1)
+                .build();
+
+        state1.getCities().addAll(Arrays.asList(city3, city1));
+        state2.getCities().add(city2);
+
+        stateRepository.saveAll(Arrays.asList(state1, state2));
+        cityRepository.saveAll(Arrays.asList(city3, city2, city1));
+
     }
 }
