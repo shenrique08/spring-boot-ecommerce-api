@@ -35,6 +35,10 @@ public class Customer implements Serializable {
     @CollectionTable(name = "PHONE")
     private final Set<String> phones = new HashSet<>();
 
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders = new ArrayList<>();
+
     public Customer() {}
 
     @Builder

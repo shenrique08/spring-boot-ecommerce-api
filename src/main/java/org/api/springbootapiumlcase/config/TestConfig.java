@@ -2,12 +2,15 @@ package org.api.springbootapiumlcase.config;
 
 import org.api.springbootapiumlcase.domain.*;
 import org.api.springbootapiumlcase.domain.enums.CustomerType;
+import org.api.springbootapiumlcase.domain.enums.StatePayment;
 import org.api.springbootapiumlcase.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 
@@ -21,16 +24,20 @@ public class TestConfig implements CommandLineRunner {
     private final CityRepository cityRepository;
     private final CustomerRepository customerRepository;
     private final AddressRepository addressRepository;
+    private final OrderRepository orderRepository;
+    private final PaymentRepository paymentRepository;
 
 
     @Autowired
-    public TestConfig(CategoryRepository categoryRepository, ProductRepository productRepository, StateRepository stateRepository, CityRepository cityRepository, CustomerRepository customerRepository, AddressRepository addressRepository) {
+    public TestConfig(CategoryRepository categoryRepository, ProductRepository productRepository, StateRepository stateRepository, CityRepository cityRepository, CustomerRepository customerRepository, AddressRepository addressRepository, OrderRepository orderRepository, PaymentRepository paymentRepository) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.stateRepository = stateRepository;
         this.cityRepository = cityRepository;
         this.customerRepository = customerRepository;
         this.addressRepository = addressRepository;
+        this.orderRepository = orderRepository;
+        this.paymentRepository = paymentRepository;
     }
 
     @Override
@@ -134,5 +141,62 @@ public class TestConfig implements CommandLineRunner {
                 .build();
 
         addressRepository.saveAll(Arrays.asList(address1, address2, address3));
+
+        customer1 = customerRepository.findAll().getFirst();
+        address1 = addressRepository.findAll().getFirst();
+
+
+        Order order1 = Order.builder()
+                .customer(customer1)
+                .deliverAddress(address1)
+                .instant(LocalDateTime.now())
+                .build();
+
+        Payment payment1 = CreditPayment.builder()
+                .order(order1)
+                .statePayment(StatePayment.PENDING)
+                .numberOfInstallments(3)
+                .build();
+        order1.setPayment(payment1);
+
+        Customer customer3 = Customer.builder()
+                .name("Jane Smith")
+                .email("jane.smith@example.com")
+                .identificationNumber("09876543211")
+                .customerType(CustomerType.INDIVIDUAL)
+                .build();
+
+        customer3.getPhones().add("11988776655");
+
+        customerRepository.save(customer3);
+
+        Address address4 = Address.builder()
+                .street("Third Avenue")
+                .number("101")
+                .neighborhood("Westside")
+                .zipCode("54321-876")
+                .customer(customer3)
+                .state(state1)
+                .city(city3)
+                .build();
+
+        addressRepository.save(address4);
+
+        Order order2 = Order.builder()
+                .customer(customer3)
+                .deliverAddress(address4)
+                .instant(LocalDateTime.now())
+                .build();
+
+        Payment payment2 = PixPayment.builder()
+                .order(order2)
+                .statePayment(StatePayment.PAYD)
+                .expireDate(LocalDate.now().plusDays(1))
+                .datePayment(LocalDate.now())
+                .build();
+        order2.setPayment(payment2);
+
+        orderRepository.saveAll(Arrays.asList(order2, order1));
+        paymentRepository.saveAll(Arrays.asList(payment2, payment1));
     }
 }
