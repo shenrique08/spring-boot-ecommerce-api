@@ -1,6 +1,7 @@
 package org.api.springbootapiumlcase.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class City implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "state_id")
+    @JsonManagedReference
     private State state;
 
     public City() {}
