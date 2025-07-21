@@ -14,7 +14,6 @@ public class CustomerResource {
 
     private final CustomerService service;
 
-
     public CustomerResource(CustomerService service) {
         this.service = service;
     }

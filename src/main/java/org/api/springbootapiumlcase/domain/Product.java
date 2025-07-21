@@ -2,6 +2,7 @@ package org.api.springbootapiumlcase.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -33,6 +34,7 @@ public class Product implements Serializable {
 
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "id.product")
+    @JsonIgnore
     private Set<OrderItem> items = new HashSet<>();
 
     public Product() {}
@@ -44,6 +46,7 @@ public class Product implements Serializable {
         this.price = price;
     }
 
+    @JsonIgnore
     public List<Order> getOrders() {
         List<Order> orders = new ArrayList<>();
         for (OrderItem item : items) {

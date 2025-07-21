@@ -1,5 +1,6 @@
 package org.api.springbootapiumlcase.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import lombok.Builder;
@@ -15,6 +16,7 @@ import java.util.Objects;
 @Entity
 public class OrderItem implements Serializable {
 
+    @JsonIgnore
     @EmbeddedId
     private final OrderItemPK id = new OrderItemPK();
 
@@ -33,6 +35,7 @@ public class OrderItem implements Serializable {
         this.price = price;
     }
 
+    @JsonIgnore
     public Order getOrder() {
         return id.getOrder();
     }

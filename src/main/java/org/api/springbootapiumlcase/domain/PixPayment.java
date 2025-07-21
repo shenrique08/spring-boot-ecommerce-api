@@ -1,6 +1,7 @@
 package org.api.springbootapiumlcase.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,9 @@ import java.time.LocalDate;
 @Entity
 public class PixPayment extends Payment {
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate expireDate;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate datePayment;
 
     public PixPayment() {}
