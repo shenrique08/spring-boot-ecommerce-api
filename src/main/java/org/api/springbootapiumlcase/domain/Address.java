@@ -1,7 +1,7 @@
 package org.api.springbootapiumlcase.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,7 +26,7 @@ public class Address implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    @JsonBackReference
+    @JsonIgnore
     private Customer customer;
     @ManyToOne
     @JoinColumn(name = "state_id")

@@ -1,6 +1,6 @@
 package org.api.springbootapiumlcase.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -26,7 +26,7 @@ public class State implements Serializable {
     @Getter
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "state")
-    @JsonBackReference
+    @JsonIgnore
     private List<City> cities = new ArrayList<>();
 
     public State() {}

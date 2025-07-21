@@ -1,6 +1,6 @@
 package org.api.springbootapiumlcase.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +20,7 @@ public abstract class Payment implements Serializable {
     private Long id;
     private Integer statePayment;
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "order_id")
     @MapsId

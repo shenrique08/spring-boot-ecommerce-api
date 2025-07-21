@@ -1,7 +1,6 @@
 package org.api.springbootapiumlcase.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -28,7 +27,6 @@ public class Customer implements Serializable {
 
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "customer")
-    @JsonManagedReference
     private final List<Address> addresses = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
@@ -38,7 +36,7 @@ public class Customer implements Serializable {
 
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "customer")
-    @JsonBackReference
+    @JsonIgnore
     private List<Order> orders = new ArrayList<>();
 
     public Customer() {}
