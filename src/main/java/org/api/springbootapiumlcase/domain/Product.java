@@ -9,9 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Setter
@@ -33,6 +31,10 @@ public class Product implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categoryList = new ArrayList<>();
 
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> items = new HashSet<>();
+
     public Product() {}
 
     @Builder
@@ -40,6 +42,15 @@ public class Product implements Serializable {
         this.id = id;
         this.name = name;
         this.price = price;
+    }
+
+    public List<Order> getOrders() {
+        List<Order> orders = new ArrayList<>();
+        for (OrderItem item : items) {
+            orders.add(item.getOrder());
+        }
+
+        return orders;
     }
 
     @Override

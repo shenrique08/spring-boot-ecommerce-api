@@ -26,10 +26,11 @@ public class TestConfig implements CommandLineRunner {
     private final AddressRepository addressRepository;
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
+    private final OrderItemRepository orderItemRepository;
 
 
     @Autowired
-    public TestConfig(CategoryRepository categoryRepository, ProductRepository productRepository, StateRepository stateRepository, CityRepository cityRepository, CustomerRepository customerRepository, AddressRepository addressRepository, OrderRepository orderRepository, PaymentRepository paymentRepository) {
+    public TestConfig(CategoryRepository categoryRepository, ProductRepository productRepository, StateRepository stateRepository, CityRepository cityRepository, CustomerRepository customerRepository, AddressRepository addressRepository, OrderRepository orderRepository, PaymentRepository paymentRepository, OrderItemRepository orderItemRepository) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.stateRepository = stateRepository;
@@ -38,6 +39,7 @@ public class TestConfig implements CommandLineRunner {
         this.addressRepository = addressRepository;
         this.orderRepository = orderRepository;
         this.paymentRepository = paymentRepository;
+        this.orderItemRepository = orderItemRepository;
     }
 
     @Override
@@ -198,5 +200,31 @@ public class TestConfig implements CommandLineRunner {
 
         orderRepository.saveAll(Arrays.asList(order2, order1));
         paymentRepository.saveAll(Arrays.asList(payment2, payment1));
+
+        OrderItem orderItem1 = OrderItem.builder()
+                .order(order1)
+                .product(product1)
+                .discount(0.0)
+                .quantity(1)
+                .price(product1.getPrice())
+                .build();
+
+        OrderItem orderItem2 = OrderItem.builder()
+                .order(order1)
+                .product(product3)
+                .discount(0.0)
+                .quantity(2)
+                .price(product3.getPrice())
+                .build();
+
+        OrderItem orderItem3 = OrderItem.builder()
+                .order(order2)
+                .product(product2)
+                .discount(100.0)
+                .quantity(4)
+                .price(product2.getPrice())
+                .build();
+
+        orderItemRepository.saveAll(Arrays.asList(orderItem1, orderItem2, orderItem3));
     }
 }

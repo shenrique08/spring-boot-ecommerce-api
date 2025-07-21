@@ -2,14 +2,16 @@ package org.api.springbootapiumlcase.domain;
 
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 
 @Getter
@@ -33,6 +35,10 @@ public class Order implements Serializable {
     @ManyToOne
     @JoinColumn(name = "deliver_address_id")
     private Address deliverAddress;
+
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> items = new HashSet<>();
 
     public Order() {}
 
