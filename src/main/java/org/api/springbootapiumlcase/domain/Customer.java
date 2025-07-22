@@ -47,7 +47,7 @@ public class Customer implements Serializable {
         this.name = name;
         this.email = email;
         this.identificationNumber = identificationNumber;
-        this.customerType = customerType.getCod();
+        this.customerType = (customerType == null) ? null : customerType.getCod();
     }
 
     @Override
