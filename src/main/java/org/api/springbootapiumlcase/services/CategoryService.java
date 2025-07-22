@@ -38,10 +38,10 @@ public class CategoryService {
         return repository.save(obj);
     }
 
-    public Category update(Category obj) {
+    public void update(Category obj) {
         Category newObj = findById(obj.getId());
         updateData(newObj, obj);
-        return repository.save(obj);
+        repository.save(obj);
     }
 
     public void deleteById(Long id) {
