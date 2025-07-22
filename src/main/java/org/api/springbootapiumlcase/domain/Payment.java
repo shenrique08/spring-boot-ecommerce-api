@@ -17,13 +17,13 @@ import java.util.Objects;
 public abstract class Payment implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer statePayment;
 
     @JsonIgnore
     @OneToOne
     @JoinColumn(name = "order_id")
-    @MapsId
     private Order order;
 
     public Payment() {}
