@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.api.springbootapiumlcase.domain.Customer;
 import org.api.springbootapiumlcase.dto.CustomerDTO;
 import org.api.springbootapiumlcase.services.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -15,23 +16,22 @@ import java.util.List;
 @RequestMapping(value = "/customers")
 public class CustomerResource {
 
-    private final CustomerService service;
     private final CustomerService customerService;
 
-    public CustomerResource(CustomerService service, CustomerService customerService) {
-        this.service = service;
+    @Autowired
+    public CustomerResource(CustomerService customerService) {
         this.customerService = customerService;
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Customer> findById(@PathVariable Long id) {
-        Customer customer = service.findById(id);
-        return ResponseEntity.ok().body(customer);
+    public ResponseEntity<CustomerDTO> findById(@PathVariable Long id) {
+        Customer customer = customerService.findById(id);
+        return ResponseEntity.ok().body(new CustomerDTO(customer));
     }
 
     @GetMapping
     public ResponseEntity<List<CustomerDTO>> findAll() {
-        List<CustomerDTO> list = service.findAll();
+        List<CustomerDTO> list = customerService.findAll();
         return ResponseEntity.ok().body(list);
     }
 
@@ -41,7 +41,6 @@ public class CustomerResource {
         obj = customerService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(obj.getId()).toUri();
-
         return ResponseEntity.created(uri).build();
     }
 
