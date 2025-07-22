@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,10 +28,11 @@ public class TestConfig implements CommandLineRunner {
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
     private final OrderItemRepository orderItemRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Autowired
-    public TestConfig(CategoryRepository categoryRepository, ProductRepository productRepository, StateRepository stateRepository, CityRepository cityRepository, CustomerRepository customerRepository, AddressRepository addressRepository, OrderRepository orderRepository, PaymentRepository paymentRepository, OrderItemRepository orderItemRepository) {
+    public TestConfig(CategoryRepository categoryRepository, ProductRepository productRepository, StateRepository stateRepository, CityRepository cityRepository, CustomerRepository customerRepository, AddressRepository addressRepository, OrderRepository orderRepository, PaymentRepository paymentRepository, OrderItemRepository orderItemRepository, PasswordEncoder passwordEncoder) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.stateRepository = stateRepository;
@@ -40,6 +42,7 @@ public class TestConfig implements CommandLineRunner {
         this.orderRepository = orderRepository;
         this.paymentRepository = paymentRepository;
         this.orderItemRepository = orderItemRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -95,6 +98,7 @@ public class TestConfig implements CommandLineRunner {
                 .name("John Doe")
                 .email("john.doe@example.com")
                 .identificationNumber("12345678900")
+                .password(passwordEncoder.encode("password123"))
                 .customerType(CustomerType.INDIVIDUAL)
                 .build();
 
@@ -105,6 +109,7 @@ public class TestConfig implements CommandLineRunner {
                 .email("contact@acme.com")
                 .identificationNumber("12345678000199")
                 .customerType(CustomerType.LEGAL_ENTITY)
+                .password(passwordEncoder.encode("kakaroto321"))
                 .build();
 
         customer2.getPhones().add("11998877665");

@@ -1,5 +1,6 @@
 package org.api.springbootapiumlcase.resources;
 
+import jakarta.validation.Valid;
 import org.api.springbootapiumlcase.domain.Product;
 import org.api.springbootapiumlcase.dto.ProductDTO;
 import org.api.springbootapiumlcase.resources.utils.URL;
@@ -27,9 +28,9 @@ public class ProductResource {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Product> findById(@PathVariable Long id) {
+    public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
         Product product = productService.findById(id);
-        return ResponseEntity.ok().body(product);
+        return ResponseEntity.ok().body(new ProductDTO(product));
     }
 
     @GetMapping
@@ -39,7 +40,7 @@ public class ProductResource {
     }
 
     @PostMapping
-    public ResponseEntity<Void> insert(@RequestBody ProductDTO objDto) {
+    public ResponseEntity<Void> insert(@Valid @RequestBody ProductDTO objDto) {
         Product obj = productService.fromDTO(objDto);
         obj = productService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -48,7 +49,7 @@ public class ProductResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Void> update(@RequestBody ProductDTO objDto, @PathVariable Long id) {
+    public ResponseEntity<Void> update(@Valid @RequestBody ProductDTO objDto, @PathVariable Long id) {
         Product obj = productService.fromDTO(objDto);
         obj.setId(id);
         productService.update(obj);

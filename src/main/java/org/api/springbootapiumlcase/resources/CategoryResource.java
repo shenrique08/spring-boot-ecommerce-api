@@ -1,6 +1,7 @@
 package org.api.springbootapiumlcase.resources;
 
 
+import jakarta.validation.Valid;
 import org.api.springbootapiumlcase.domain.Category;
 import org.api.springbootapiumlcase.dto.CategoryDTO;
 import org.api.springbootapiumlcase.services.CategoryService;
@@ -25,9 +26,9 @@ public class CategoryResource {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Category> findById(@PathVariable Long id) {
+    public ResponseEntity<CategoryDTO> findById(@PathVariable Long id) {
         Category category = categoryService.findById(id);
-        return ResponseEntity.ok().body(category);
+        return ResponseEntity.ok().body(new CategoryDTO(category));
     }
 
     @GetMapping
@@ -37,7 +38,7 @@ public class CategoryResource {
     }
 
     @PostMapping
-    public ResponseEntity<Void> insert(@RequestBody CategoryDTO objDTO) {
+    public ResponseEntity<Void> insert(@Valid @RequestBody CategoryDTO objDTO) {
         Category obj = categoryService.fromDTO(objDTO);
         obj = categoryService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -46,7 +47,7 @@ public class CategoryResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Void> update(@RequestBody CategoryDTO objDTO, @PathVariable Long id) {
+    public ResponseEntity<Void> update(@Valid @RequestBody CategoryDTO objDTO, @PathVariable Long id) {
         Category obj = categoryService.fromDTO(objDTO);
         obj.setId(id);
         categoryService.update(obj);

@@ -145,4 +145,3 @@ ALTER TABLE order_item ADD CONSTRAINT fk_order_item_on_product FOREIGN KEY (prod
 ALTER TABLE shopping_cart ADD CONSTRAINT FK_SHOPPING_CART_ON_CUSTOMER FOREIGN KEY (id) REFERENCES customer (id);
 ALTER TABLE cart_item ADD CONSTRAINT fk_cart_item_on_product FOREIGN KEY (product_id) REFERENCES product (id);
 ALTER TABLE cart_item ADD CONSTRAINT fk_cart_item_on_shopping_cart FOREIGN KEY (shopping_cart_id) REFERENCES shopping_cart (id);
-

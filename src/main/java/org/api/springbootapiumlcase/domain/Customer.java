@@ -23,6 +23,7 @@ public class Customer implements Serializable {
     private String name;
     private String email;
     private String identificationNumber;
+    private String password;
     private Integer customerType;
 
     @Setter(AccessLevel.NONE)
@@ -42,10 +43,11 @@ public class Customer implements Serializable {
     public Customer() {}
 
     @Builder
-    public Customer(Long id, String name, String email, String identificationNumber, CustomerType customerType) {
+    public Customer(Long id, String name, String email, String password, String identificationNumber, CustomerType customerType) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.password = password;
         this.identificationNumber = identificationNumber;
         this.customerType = (customerType == null) ? null : customerType.getCod();
     }
