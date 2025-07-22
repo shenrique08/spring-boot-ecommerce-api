@@ -1,13 +1,19 @@
 package org.api.springbootapiumlcase.services;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.api.springbootapiumlcase.domain.Category;
 import org.api.springbootapiumlcase.domain.Product;
 import org.api.springbootapiumlcase.dto.ProductDTO;
+import org.api.springbootapiumlcase.repositories.CategoryRepository;
 import org.api.springbootapiumlcase.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,10 +21,12 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository repository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public ProductService(ProductRepository repository) {
+    public ProductService(ProductRepository repository, CategoryRepository categoryRepository) {
         this.repository = repository;
+        this.categoryRepository = categoryRepository;
     }
 
     public Product findById(Long id) {
@@ -57,6 +65,13 @@ public class ProductService {
                 .name(objDto.getName())
                 .price(objDto.getPrice())
                 .build();
+    }
+
+    public Page<ProductDTO> search(String name, List<Long> ids, Integer page, Integer linesPerPage, String orderBy, String direction) {
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        List<Category> categories = categoryRepository.findAllById(ids);
+        Page<Product> pageResult = repository.findDistinctByNameContainingAndCategoryListIn(name, categories, pageRequest);
+        return pageResult.map(ProductDTO::new);
     }
 
     private void updateData(Product newObj, Product obj) {
