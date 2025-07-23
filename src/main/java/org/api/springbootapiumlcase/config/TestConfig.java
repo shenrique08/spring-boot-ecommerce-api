@@ -5,6 +5,7 @@ import org.api.springbootapiumlcase.domain.enums.CustomerType;
 import org.api.springbootapiumlcase.domain.enums.StatePayment;
 import org.api.springbootapiumlcase.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -44,6 +45,12 @@ public class TestConfig implements CommandLineRunner {
         this.orderItemRepository = orderItemRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
+    @Value("${test.user.password.customer1}")
+    private String customer1Password;
+
+    @Value("${test.user.password.customer2}")
+    private String customer2Password;
 
     @Override
     public void run(String... args) {
@@ -98,18 +105,18 @@ public class TestConfig implements CommandLineRunner {
                 .name("John Doe")
                 .email("john.doe@example.com")
                 .identificationNumber("12345678900")
-                .password(passwordEncoder.encode("password123"))
+                .password(passwordEncoder.encode(customer1Password))
                 .customerType(CustomerType.INDIVIDUAL)
                 .build();
 
-        customer1.getPhones().addAll(Arrays.asList("11987654321", "11123456789"));
+        // ...
 
         Customer customer2 = Customer.builder()
                 .name("ACME Corp")
                 .email("contact@acme.com")
                 .identificationNumber("12345678000199")
                 .customerType(CustomerType.LEGAL_ENTITY)
-                .password(passwordEncoder.encode("kakaroto321"))
+                .password(passwordEncoder.encode(customer2Password))
                 .build();
 
         customer2.getPhones().add("11998877665");
