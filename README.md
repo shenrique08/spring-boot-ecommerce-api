@@ -1,4 +1,4 @@
-# 🛒 Spring Boot API UML Case
+# 🛒 Spring Boot E-Commerce REST API
 
 A fully featured, production-ready RESTful API simulating a simplified e-commerce system. Built with **Spring Boot 3**, **PostgreSQL**, and **JWT-based security**, this project demonstrates a clean, layered architecture ideal for scalable enterprise applications. It includes user authentication, product and category management, order processing, and shopping cart functionality.
 
