@@ -30,13 +30,15 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
 
     private static final String[] PUBLIC_MATCHERS = {
-            "/h2-console/**",
             "/products/**",
-            "/categories/**"
-    };
+            "/categories/**",
+            "/customers/**",
+            "/carts/**",
 
-    private static final String[] PUBLIC_MATCHERS_POST = {
-            "/customers/**"
+            "/",
+            "/index.html",
+            "/css/**",
+            "/js/**"
     };
 
     public SecurityConfig(JWTUtil jwtUtil, UserDetailsService userDetailsService) {
@@ -49,12 +51,12 @@ public class SecurityConfig {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable);
 
+        // This filter is here but won't do much since most paths are public
         http.addFilter(new JWTAuthorizationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), jwtUtil, userDetailsService));
 
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
-                .requestMatchers(PUBLIC_MATCHERS).permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers(PUBLIC_MATCHERS).permitAll() // Permit all requests to public matchers
+                .anyRequest().authenticated() // All other requests need authentication
         );
 
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -75,10 +77,9 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // For production, you should be more specific
-        configuration.setAllowedOrigins(Arrays.asList("https://your-frontend-domain.com"));
+        configuration.setAllowedOrigins(List.of("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        configuration.setAllowedHeaders(List.of("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

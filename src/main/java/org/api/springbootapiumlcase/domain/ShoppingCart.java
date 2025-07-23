@@ -20,7 +20,7 @@ public class ShoppingCart implements Serializable {
 
     @JsonIgnore
     @OneToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "id")
     @MapsId
     private Customer customer;
 
