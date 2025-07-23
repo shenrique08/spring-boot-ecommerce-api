@@ -1,6 +1,6 @@
 # 🛒  JavaLoom E-Commerce REST API
 
-A fully featured, production-ready RESTful API simulating a simplified e-commerce system. Built with **Spring Boot 3**, **PostgreSQL**, and **JWT-based security**, this project demonstrates a clean, layered architecture ideal for scalable enterprise applications. It includes user authentication, product and category management, order processing, and shopping cart functionality.
+A fully featured, production-ready RESTful API simulating a simplified e-commerce system. Built with **Spring Boot 3**, **PostgreSQL**, and **JWT-based security**, this project demonstrates a clean, layered architecture ideal for scalable enterprise applications. It includes user authentication, product and category management, order processing, and shopping cart functionality. Also, the project includes a simple, user-friendly front-end built with HTML, and JavaScript to consume the API and showcase its functionality.
 
 ---
 
@@ -19,6 +19,7 @@ A fully featured, production-ready RESTful API simulating a simplified e-commerc
 
 ## ✨ Features
 
+- 🎨 **Simple UI**: A clean user interface built with HTML and vanilla JavaScript that allows users to view products and manage a shopping cart.
 - ✅ **RESTful API**: Manage products, categories, customers, carts, and orders.  
 - 🧱 **Layered Architecture**: Clear separation between domain, service, repository, and controller layers.  
 - 🗄 **Database Integration**: Uses PostgreSQL with Spring Data JPA.  
@@ -44,6 +45,7 @@ A fully featured, production-ready RESTful API simulating a simplified e-commerc
 | **Lombok**        | Eliminates boilerplate code              |
 | **Maven**         | Build automation                         |
 | **Docker**        | Containerization                         |
+| **HTML5, CSS3, JS** |	Front-end for the user interface.      |
 
 ---
 
